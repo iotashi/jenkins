@@ -19,7 +19,7 @@ pipeline {
                 echo "Installing Python dependencies"
 
                 withPythonEnv('venv/') {
-                    sh "pip3 install -r run_python_script/requirements.txt"
+                    sh "pip3 install -r requirements.txt"
                 }
             }
         }
@@ -28,7 +28,7 @@ pipeline {
                 echo "Running python script"
 
                 withPythonEnv('venv/') {
-                    sh "python3 run_python_script/check_endpoint.py"
+                    sh "python3 check_endpoint.py"
                 }
             }
         }
