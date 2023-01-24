@@ -4,15 +4,34 @@ pipeline {
     stages {
         stage('python version') {
             steps {
-                echo "Checking python version"
-                sh "python --version"
+                echo "Checking Python version"
+                sh "python3 --version"
             }
         }
-        stage('run python script') {
+        stage('Create virtual environment') {
+            steps {
+                echo "Creating virtual environment"
+                sh "python3 -m venv venv"
+            }
+        }
+        stage('Install dependencies') {
+            steps {
+                echo "Installing Python dependencies"
+
+                withPythonEnv('venv/') {
+                    sh "pip3 install -r run_python_script/requirements.txt"
+                }
+            }
+        }
+        stage('run Python script') {
             steps {
                 echo "Running python script"
-                sh "python check_endpoint.py"
+
+                withPythonEnv('venv/') {
+                    sh "python3 run_python_script/check_endpoint.py"
+                }
             }
         }
     }
 }
+
